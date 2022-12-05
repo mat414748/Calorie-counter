@@ -11,29 +11,38 @@ const rowStyle = "min-w-[350px] border border-slate-300";
 // Messages which can be used to update the model
 const MSGS = {
   createRow: "createRow",
+  deleteRow: "deleteRow"
 };
 
 // View function which represents the UI as HTML-tag functions
 function view(dispatch, model) {
-  return div ({ }, [ 
+  return div ({ className: "ml-20" }, [ 
     div({ className: "flex flex-row gap-4 items-center" }, [
     p({className: "text-2xl" }, `Name:`),
-    input({type:"text", className:"border-4 border-black", id:"nameInput"}),
-    p({className: "text-2xl" }, `Callories:`),
-    input({type:"number", className:"border-4 border-black", id:"caloryInput"}),
-    button({ className: btnStyle, onclick: () => dispatch(MSGS.createRow) }, "Create" + model.currentName + model.currentPassword),
+    input({type:"text", className:"border-2 border-black", id:"nameInput", placeholder:"Enter meal name..."}),
+    p({className: "text-2xl" }, `Calories:`),
+    input({type:"number", className:"border-2 border-black", id:"caloryInput", placeholder:"Enter calories number..."}),
+    button({ className: btnStyle, onclick: () => dispatch(MSGS.createRow) }, "Create"),
     ]), 
     table({ className: "relative mx-auto border-collapse mt-10", id:"table" }, [
       tr({ className: "" }, [
         td({ className: rowStyle }, "Meal"),
-        td({ className: rowStyle }, "Calories")
+        td({ className: rowStyle }, "Calories"),
+        td({ className: "min-w-[100px]" })
+      ]),
+    ]),
+    table({ className: "relative mx-auto border-collapse mt-10", id:"table" }, [
+      tr({ className: "" }, [
+        td({ className: rowStyle }, "Total"),
+        td({ className: rowStyle, id:"total" }, model.sum),
+        td({ className: "min-w-[100px]" })
       ]),
     ])
   ]);
 }
 
 // Update function which takes a message and a model and returns a new/updated model
-function update(msg, model) {
+function update(dispatch, msg, model) {
   switch (msg) {
     case MSGS.createRow:
       const table = document.getElementById("table");
@@ -48,16 +57,20 @@ function update(msg, model) {
       calory.className = rowStyle;
       delButton.className = btnStyle + " ml-5";
 
-      delButton.addEventListener("click", function(event) {
-        const td = event.target.parentNode; 
-        const tr = td.parentNode;
-        tr.parentNode.removeChild(tr);
+
+      delButton.addEventListener("click", function(event) { dispatch(MSGS.deleteRow)
+        //initModel.sum = initModel.sum - +tr.cells[1].innerText;
       });
 
       name.innerText = document.getElementById("nameInput").value;
       calory.innerText = document.getElementById("caloryInput").value;
       delButton.innerText = "Delete";
-      return model;
+      return {...model, sum: model.sum + +document.getElementById("caloryInput").value};
+    case MSGS.deleteRow:
+      const td = event.target.parentNode; 
+      const tr = td.parentNode;
+      tr.parentNode.removeChild(tr);
+      return {...model, sum: model.sum - +tr.cells[1].innerText};
     default:
       return model;
   }
@@ -65,8 +78,7 @@ function update(msg, model) {
 
 // The initial model when the app starts
 const initModel = {
-  currentName: "",
-  currentPassword: ""
+  sum: 0
 };
 
 // ⚠️ Impure code below (not avoidable but controllable)
@@ -76,7 +88,7 @@ function app(initModel, update, view, node) {
   let rootNode = createElement(currentView);
   node.appendChild(rootNode);
   function dispatch(msg) {
-    model = update(msg, model);
+    model = update(dispatch,msg, model);
     const updatedView = view(dispatch, model);
     const patches = diff(currentView, updatedView);
     rootNode = patch(rootNode, patches);
