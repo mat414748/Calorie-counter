@@ -1,0 +1,48 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Users\lol41\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add ./package.json
+
+PATH: 
+  C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files\dotnet\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\sbt\bin;C:\Program Files\Go\bin;C:\xampp\php;C:\ProgramData\ComposerSetup\bin;D:\Git\cmd;%NVM_HOME%;%NVM_SYMLINK%;C:\Program Files\nodejs\;C:\Users\lol41\AppData\Local\Microsoft\WindowsApps;D:\Microsoft VS Code\bin;C:\Users\lol41\go\bin;C:\Users\lol41\AppData\Roaming\Composer\vendor\bin;C:\Program Files\Multipass\bin;D:\nvm;C:\Program Files\nodejs;C:\Users\lol41\AppData\Roaming\npm
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  19.2.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EINVAL: invalid argument, mkdir 'C:\Users\lol41\AppData\Local\Yarn\Cache\v6\npm-example-project-0.0.0-470f63ef-38d4-44ad-bf83-cd212fcf9cc2-1669974053682\node_modules\D:\example_project'
+
+npm manifest: 
+  {
+    "name": "example_project",
+    "version": "1.0.0",
+    "description": "An example project for all module 323 exercises",
+    "scripts": {
+      "dev": "webpack serve --mode development",
+      "build": "webpack --mode production"
+    },
+    "browserslist": "> 0.25%, not dead",
+    "author": "Patrick Michel",
+    "license": "MIT",
+    "devDependencies": {
+      "@babel/core": "^7.20.2",
+      "@babel/preset-env": "^7.20.2",
+      "babel-loader": "^9.1.0",
+      "hyperscript-helpers": "^3.0.3",
+      "ramda": "^0.28.0",
+      "virtual-dom": "^2.1.1",
+      "webpack": "^5.75.0",
+      "webpack-cli": "^5.0.0",
+      "webpack-dev-server": "^4.11.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
