@@ -45,27 +45,38 @@ function view(dispatch, model) {
 function update(dispatch, msg, model) {
   switch (msg) {
     case MSGS.createRow:
-      const table = document.getElementById("table");
-      const row = table.insertRow(-1);
-      const name = row.insertCell(-1);
-      const calory = row.insertCell(-1);
-      const deleteRow = row.insertCell(-1);
-      const delButton = document.createElement("button");
-      deleteRow.appendChild(delButton);
+      if (document.getElementById("nameInput").value == "") {
+        alert("Field Name is empty");
+        return model;
+      } else if (document.getElementById("caloryInput").value == "") {
+        alert("Field Calories is empty");
+        return model;
+      } else {
+        const table = document.getElementById("table");
+        const row = table.insertRow(-1);
+        const name = row.insertCell(-1);
+        const calory = row.insertCell(-1);
+        const deleteRow = row.insertCell(-1);
+        const delButton = document.createElement("button");
+        deleteRow.appendChild(delButton);
 
-      name.className = rowStyle;
-      calory.className = rowStyle;
-      delButton.className = btnStyle + " ml-5";
+        name.className = rowStyle;
+        calory.className = rowStyle;
+        delButton.className = btnStyle + " ml-5";
 
+        delButton.addEventListener("click", function(event) { dispatch(MSGS.deleteRow) });
 
-      delButton.addEventListener("click", function(event) { dispatch(MSGS.deleteRow)
-        //initModel.sum = initModel.sum - +tr.cells[1].innerText;
-      });
+        name.innerText = document.getElementById("nameInput").value;
+        calory.innerText = document.getElementById("caloryInput").value;
 
-      name.innerText = document.getElementById("nameInput").value;
-      calory.innerText = document.getElementById("caloryInput").value;
-      delButton.innerText = "Delete";
-      return {...model, sum: model.sum + +document.getElementById("caloryInput").value};
+        delButton.innerText = "Delete";
+        try {
+          return {...model, sum: model.sum + +document.getElementById("caloryInput").value};
+        } finally {
+          document.getElementById("nameInput").value = "";
+          document.getElementById("caloryInput").value = "";
+        }
+      }
     case MSGS.deleteRow:
       const td = event.target.parentNode; 
       const tr = td.parentNode;
